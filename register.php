@@ -2,14 +2,13 @@
 require_once 'dbh.php';
 require_once 'functions.php';
 $result = display_users();
-session_start();
 if (!isset($_SESSION['username'])) {
     header("location:login_v2.php");
 } else if ($_SESSION['role'] == 'Employee') {
     header("location:login_v2.php");
-}  else if ($_SESSION['role'] == 'Desk Clerk') {
+} else if ($_SESSION['role'] == 'Desk Clerk' || $_SESSION['role'] == 'TCWS Employee') {
     header("location:login_v2.php");
-} 
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,53 +28,67 @@ if (!isset($_SESSION['username'])) {
     <title>Register</title>
     <style>
         @media screen and (max-width: 767px) {
- 
-  #my_label{
-    font-size: 25px;
-    margin-left:97px;
-    
-  }
-  .card{
-    height: 430px;
-    width:240px;
-    margin: 0 auto 0 20px !important; /* Adjust the margin as needed */
-  }
-  #left-column {
-    
-         width: 80% !important;
-       
-        max-height: 490px; /* Adjust the maximum height as needed */
-        
-           
-            margin-left:44px  !important;
-            margin-right:49px  !important;
-           
-            background-color: #fff  !important; /* Set the background color for the container */
-      
-        border-radius: 5px  !important; /* Add rounded corners */
-        margin-top: 20px  !important; /* Add some space from the top */
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5)  !important; /* Add a shadow to the container */
-        margin-bottom: 20px !important;
-    }
-    #right-column {
-        margin-top: 20px !important;
-    width: 90% !important;
-   margin: 0 auto 0 20px !important; /* Adjust the margin as needed */
-   padding: 20px !important;
-   max-height: 600px; /* Adjust the maximum height as needed */
-   
 
-}
-    #input-fields{
-        height: 100% !important;
-        width:200px;
-    
-    }
-  
-}
-     body {
-        background-color: #f0f0f0; /* Set the background color of the body */
-    }
+            #my_label {
+                font-size: 25px;
+                margin-left: 97px;
+
+            }
+
+            .card {
+                height: 430px;
+                width: 240px;
+                margin: 0 auto 0 20px !important;
+                /* Adjust the margin as needed */
+            }
+
+            #left-column {
+
+                width: 80% !important;
+
+                max-height: 490px;
+                /* Adjust the maximum height as needed */
+
+
+                margin-left: 44px !important;
+                margin-right: 49px !important;
+
+                background-color: #fff !important;
+                /* Set the background color for the container */
+
+                border-radius: 5px !important;
+                /* Add rounded corners */
+                margin-top: 20px !important;
+                /* Add some space from the top */
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5) !important;
+                /* Add a shadow to the container */
+                margin-bottom: 20px !important;
+            }
+
+            #right-column {
+                margin-top: 20px !important;
+                width: 90% !important;
+                margin: 0 auto 0 20px !important;
+                /* Adjust the margin as needed */
+                padding: 20px !important;
+                max-height: 600px;
+                /* Adjust the maximum height as needed */
+
+
+            }
+
+            #input-fields {
+                height: 100% !important;
+                width: 200px;
+
+            }
+
+        }
+
+        body {
+            background-color: #f0f0f0;
+            /* Set the background color of the body */
+        }
 
 
         .navbar-brand {
@@ -104,14 +117,19 @@ if (!isset($_SESSION['username'])) {
         #left-column {
             float: left;
             width: 30%;
-            margin-left:43px;
-            margin-right:40px;
+            margin-left: 43px;
+            margin-right: 40px;
             padding: 20px;
-            background-color: #fff; /* Set the background color for the container */
-        padding: 20px; /* Add some padding to the container */
-        border-radius: 5px; /* Add rounded corners */
-        margin-top: 20px; /* Add some space from the top */
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add a shadow to the container */
+            background-color: #fff;
+            /* Set the background color for the container */
+            padding: 20px;
+            /* Add some padding to the container */
+            border-radius: 5px;
+            /* Add rounded corners */
+            margin-top: 20px;
+            /* Add some space from the top */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* Add a shadow to the container */
         }
 
         /* Style for the right column containing the table */
@@ -120,21 +138,42 @@ if (!isset($_SESSION['username'])) {
             float: left;
             width: 60%;
             padding: 20px;
-            background-color: #fff; /* Set the background color for the container */
-        padding: 20px; /* Add some padding to the container */
-        border-radius: 5px; /* Add rounded corners */
-        margin-top: 20px; /* Add some space from the top */
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add a shadow to the container */
+            background-color: #fff;
+            /* Set the background color for the container */
+            padding: 20px;
+            /* Add some padding to the container */
+            border-radius: 5px;
+            /* Add rounded corners */
+            margin-top: 20px;
+            /* Add some space from the top */
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            /* Add a shadow to the container */
         }
-        
     </style>
 </head>
 
 <body>
+    <!-- <script type="text/javascript">
+        function loadDoc() {
+            setInterval(function () {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        document.getElementById("table").innerHTML = this.responseText;
+
+                    }
+                };
+                xhttp.open("GET", "data_users.php", true);
+                xhttp.send();
+            }, 1000);
+        }
+        loadDoc();
+
+    </script> -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <a class="navbar-brand" href="index.php">
+        <a class="navbar-brand" href="index">
             <img src="logo.png" alt="Logo" class="logo-img">
-            <span class="logo-text">E-Pass Slip </span>
+            <span class="logo-text">E-Pass</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,26 +182,29 @@ if (!isset($_SESSION['username'])) {
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item">
-                    <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
-                </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="add_req.php">Add Request</a>
+                </li> -->
+                <li class="nav-item">
+                    <a class="nav-link" href="approved">Approved</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="approved.php">Approved</a>
+                    <a class="nav-link" href="decline">Declined Request</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="decline.php">Declined Request</a>
+                    <a class="nav-link" href="track_emp">Track Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="track_emp.php">Track Employees</a>
+                    <a class="nav-link" href="register">Register</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="qrcode_scanner.php">Scan QRcode</a>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" href="register.php">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login_v2.php">Logout</a>
+                    <a class="nav-link" href="logout">Logout</a>
                 </li>
             </ul>
         </div>
@@ -198,45 +240,50 @@ if (!isset($_SESSION['username'])) {
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Success!</strong> Account added!.
             </div>
-        <?php
-    } else {
-        ?>
+            <?php
+        } else {
+            ?>
             <div class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <strong>Unsuccesful!</strong> Please try again.
             </div>
-        <?php
+            <?php
+        }
     }
-}
-?>
+    ?>
 
     <div class="container" id="left-column">
         <div class="p-3 rounded shadow">
             <div class="card">
-                <div class="card-body" id = "input-fields">
+                <div class="card-body" id="input-fields">
                     <h2 class="card-title">Add User</h2>
                     <form action="register.php" method="POST">
-                        <div class="form-group" >
+                        <div class="form-group">
                             <label for="name">Name:</label>
                             <input type="text" class="form-control" id="name" placeholder="Name" name="name" required>
                         </div>
                         <div class="form-group">
                             <label for="username">Username:</label>
-                            <input type="text" class="form-control" id="position" placeholder="Username"
-                                name="username" required>
+                            <input type="text" class="form-control" id="position" placeholder="Username" name="username"
+                                required>
                         </div>
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="text" class="form-control" id="position" placeholder="Password"
-                                name="password" required>
+                            <input type="text" class="form-control" id="position" placeholder="Password" name="password"
+                                required>
                         </div>
                         <div class="mb-3">
                             <div class="form-group">
                                 <label for="sel1">Role:</label>
                                 <select class="form-control" id="sel1" name="role">
                                     <option>Admin</option>
+                                    <option>Admin2</option>
                                     <option>Employee</option>
+                                    <option>TCWS Employee</option>
+                                    <option>TCWS Scanner</option>
                                     <option>Desk Clerk</option>
+                                    <option>Division Head</option>
+                                    <option>TCWS Division Head</option>
                                 </select>
                             </div>
                         </div>
@@ -246,7 +293,7 @@ if (!isset($_SESSION['username'])) {
             </div>
         </div>
     </div>
-</div>
+    </div>
     <div class="container" id="right-column">
         <div class="p-5 rounded shadow">
             <div class="table-responsive">
@@ -263,20 +310,30 @@ if (!isset($_SESSION['username'])) {
                         <?php
                         while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                            <td><?php echo $row["Id"]; ?></td>
-                            <td><?php echo $row["username"]; ?></td>
-                            <td><?php echo $row["password"]; ?></td>
-                            <td><?php echo $row["name"]; ?></td>
-                            <td><?php echo $row["role"]; ?></td>
+                            <td>
+                                <?php echo $row["Id"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["username"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["password"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["name"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["role"]; ?>
+                            </td>
                             <form action="code.php" method="post">
                                 <input type="hidden" name="id" value="<?php echo $row['Id'] ?>">
                                 <td><input type="submit" name="delete" class="btn btn-danger" value="delete"></td>
                             </form>
-                    </tr>
+                        </tr>
 
-                <?php
-            }
-            ?>
+                        <?php
+                        }
+                        ?>
                 </table>
             </div>
         </div>

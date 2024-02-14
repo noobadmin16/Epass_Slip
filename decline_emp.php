@@ -2,8 +2,7 @@
  
  require_once 'dbh.php';
  require_once 'functions.php';
- $result = display_data_declined();
-session_start();
+ $result = display_data_declined_emp();
  if(!isset($_SESSION['username'])){
   header("location:login_v2.php");
  }else if ($_SESSION['role'] == 'Admin'){

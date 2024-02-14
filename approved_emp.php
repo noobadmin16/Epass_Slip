@@ -2,8 +2,7 @@
  
  require_once 'dbh.php';
  require_once 'functions.php';
- $result = display_data_approved();
- session_start();
+ $result = display_data_approved_emp();
  if(!isset($_SESSION['username'])){
   header("location:login_v2.php");
  }
@@ -103,7 +102,7 @@
     </div>
 </nav>
 
-<style>
+<style> 
 /* Remove the white box on hover */
 .navbar-nav .nav-link {
     background-color: transparent !important;

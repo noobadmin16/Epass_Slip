@@ -1,15 +1,14 @@
 
 <?php
  require_once 'dbh.php';
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
+ session_start();
+ $username = $_SESSION['username'];
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "SELECT * FROM `request` WHERE `Status` LIKE 'Approved' ORDER BY `id` DESC";
+$sql = "SELECT * FROM `request` WHERE `Status` = 'Approved' AND `name` = '$username' ORDER BY `id` DESC";
 $result = $conn->query($sql);
 ?>
  <tr>

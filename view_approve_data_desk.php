@@ -92,6 +92,9 @@ if(!isset($_SESSION['username'])){
                 <a class="nav-link" href="decline_desk.php">Declined Request</a>
             </li>
             <li class="nav-item">
+                    <a class="nav-link" href="qrcode_scanner_desk.php">Scan QRcode</a>
+                </li>
+            <li class="nav-item">
             <a class="nav-link" href="login_v2.php">Logout</a>
             </li>
         </ul>
@@ -156,54 +159,19 @@ if(!isset($_SESSION['username'])){
                             </div>
                             <div class="mb-3">
                                 <label>Time of Departure:</label>
-                                <p class="form-control-static"><?php echo $data['timedept']; ?></p>
+                                <p class="form-control-static"><?php echo date('g:i A', strtotime($data['timedept'])); ?></p>
                             </div>
                             <div class="mb-3">
                                 <label>Estimated Time:</label>
-                                <p class="form-control-static"><?php echo $data['esttime']; ?></p>
+                                <p class="form-control-static"><?php echo date('g:i A', strtotime($data['esttime'])); ?></p>
                             </div>
                             <div class="mb-3">
                                 <label>Type of Request:</label>
                                 <p class="form-control-static"><?php echo $data['typeofbusiness']; ?></p>
                             </div>
-                            <div class="form-group">
-                    <label for="time_ret">Time of Actual Return:</label>
-                    <input type="time" class="form" id="time_ret" name="time_ret" min="09:00" max="18:00" required>
-                            </div>
                             <div class="mb-3">
                                 <label>Confirmed By:</label>
                                 <p class="form-control-static"><?php echo $data['confirmed_by']; ?></p>
-                            </div>
-                            <div class="mb-3">
-                            <div class="form-group">
-                                <label for="sel1">Status:</label>
-                                 <select class="form" id="sel1" name = 'status'>
-                                 <option><?= $data['Status']; ?></option>
-                                   <option>Done</option>
-                                      </select>
-                              </div>
-                            </div>
-                            
-                        <div class="mb-3">
-                            
-                            <label id="lbl" for="sel1">Remarks:</label>
-                             <select class="form" id="sel2" name="remarks">
-                              <option>On-Time</option>
-                                 <option>Late</option>
-                            </select>
-                </div>
-                         <div class="mb-3">
-                            <div class="form-group">
-                                <label for="sel1">Assigned Office:</label>
-                                 <select class="form" id="sel1" name = 'designation'>
-                                 <option>Admin</option>
-                                   <option>TCWS</option>
-                                   <option>MotorPol</option>
-                                   <option>AMO</option>
-                                   <option>SAP</option>
-                                      </select>
-                              </div>
-                            </div>
                 </div>
                             <button type="submit" name="returned_emp_desk" id = "aprv_btn" class="btn btn-success">Submit</button>
                         </div>

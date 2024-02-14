@@ -65,7 +65,7 @@ if(!isset($_SESSION['username'])){
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
 <a class="navbar-brand" href="index_desk.php">
     <img src="logo.png" alt="Logo" class="logo-img">
-    <span class="logo-text">E-Pass Slip </span>
+    <span class="logo-text">E-Pass</span>
   </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -85,6 +85,9 @@ if(!isset($_SESSION['username'])){
             <li class="nav-item">
                 <a class="nav-link" href="decline_desk.php">Declined Request</a>
             </li>
+            <li class="nav-item">
+                    <a class="nav-link" href="qrcode_scanner_desk.php">Scan QRcode</a>
+                </li>
             <li class="nav-item">
             <a class="nav-link" href="login_v2.php">Logout</a>
             </li>

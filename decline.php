@@ -2,14 +2,13 @@
 require_once 'dbh.php';
 require_once 'functions.php';
 $result = display_data_Declined();
-session_start();
 if (!isset($_SESSION['username'])) {
     header("location:login_v2.php");
 } else if ($_SESSION['role'] == 'Employee') {
     header("location:login_v2.php");
-}  else if ($_SESSION['role'] == 'Desk Clerk') {
+} else if ($_SESSION['role'] == 'Desk Clerk'||$_SESSION['role'] == 'TCWS Employee') {
     header("location:login_v2.php");
-} 
+}
 
 ?>
 <!doctype html>
@@ -30,70 +29,70 @@ if (!isset($_SESSION['username'])) {
     <title>Decline Request</title>
 </head>
 <style>
-@media screen and (max-width: 767px) {
-    #getName {
-        margin-left: 160px;
+    @media screen and (max-width: 767px) {
+        #getName {
+            margin-left: 160px;
+        }
+
+        #pen_label {
+            font-size: 25px;
+            font-size: 25px;
+            margin-left: 97px;
+            margin-left: 80px !important;
+        }
+
+        .container {
+            height: 70%;
+            width: 95%;
+        }
     }
 
-    #pen_label {
-        font-size: 25px;
-        font-size: 25px;
-    margin-left:97px;
-    margin-left: 80px !important;
+    body {
+        background-color: #f0f0f0;
+        /* Set the background color of the body */
+    }
+
+    .navbar-brand {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Style for the logo image */
+    .logo-img {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+
+    /* Style for the "E-Pass Slip" text */
+    .logo-text {
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        margin-left: 10px;
+        /* Add some spacing between the logo and text */
     }
 
     .container {
-        height: 70%;
-        width: 95%;
+        background-color: #fff;
+        /* Set the background color for the container */
+        padding: 20px;
+        /* Add some padding to the container */
+        border-radius: 5px;
+        /* Add rounded corners */
+        margin-top: 20px;
+        /* Add some space from the top */
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        /* Add a shadow to the container */
     }
-}
-
-body {
-    background-color: #f0f0f0;
-    /* Set the background color of the body */
-}
-
-.navbar-brand {
-    display: flex;
-    align-items: center;
-}
-
-/* Style for the logo image */
-.logo-img {
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-}
-
-/* Style for the "E-Pass Slip" text */
-.logo-text {
-    color: white;
-    font-weight: bold;
-    font-size: 20px;
-    margin-left: 10px;
-    /* Add some spacing between the logo and text */
-}
-
-.container {
-    background-color: #fff;
-    /* Set the background color for the container */
-    padding: 20px;
-    /* Add some padding to the container */
-    border-radius: 5px;
-    /* Add rounded corners */
-    margin-top: 20px;
-    /* Add some space from the top */
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    /* Add a shadow to the container */
-}
 </style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <a class="navbar-brand" href="index.php">
             <img src="logo.png" alt="Logo" class="logo-img">
-            <span class="logo-text">E-Pass Slip </span>
+            <span class="logo-text">E-Pass</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,9 +104,9 @@ body {
                 <li class="nav-item">
                     <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" href="add_req.php">Add Request</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="approved.php">Approved</a>
                 </li>
@@ -120,10 +119,12 @@ body {
                 <li class="nav-item">
                     <a class="nav-link" href="register.php">Register</a>
                 </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="qrcode_scanner.php">Scan QRcode</a>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link" href="login_v2.php">Logout</a>
                 </li>
-                
             </ul>
         </div>
     </nav>
@@ -149,7 +150,7 @@ body {
                 xhttp.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         document.getElementById("table").innerHTML = this.responseText;
-                       
+
                     }
                 };
                 xhttp.open("GET", "data_declined.php", true);
@@ -174,17 +175,27 @@ body {
                     </tr>
                     <tr>
                         <?php
-                        while($row = mysqli_fetch_assoc($result))
-                        {
+                        while ($row = mysqli_fetch_assoc($result)) {
                             ?>
-                            <td><?php echo $row["name"]; ?></td>
-                            <td><?php echo $row["position"]; ?></td>
-                            <td><?php echo $row["destination"]; ?></td>
-                            <td><?php echo $row["typeofbusiness"]; ?></td>
-                            <td><?php echo $row["Status"]; ?></td>
-                            <td> <a href="view_decline_req.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a></td>
-                            </tr>
-                            <?php
+                            <td>
+                                <?php echo $row["name"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["position"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["destination"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["typeofbusiness"]; ?>
+                            </td>
+                            <td>
+                                <?php echo $row["Status"]; ?>
+                            </td>
+                            <td> <a href="view_decline_req.php?id=<?= $row['id']; ?>" class="btn btn-info btn-sm">View</a>
+                            </td>
+                        </tr>
+                        <?php
                         }
                         ?>
                 </table>

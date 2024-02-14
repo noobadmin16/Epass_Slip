@@ -1,10 +1,14 @@
-<?php  
+<?php
 session_start();
-require 'dbh.php';
 
-//destroy all session and redirect user to home page
+// Unset specific session variables
+unset($_SESSION['username']);
+unset($_SESSION['role']);
 
+// Destroy the session
 session_destroy();
-header('location: ' . DOMAIN . 'login.php' );
- 
-die();
+
+// Redirect to the login page or any other page after logout
+header("Location: login_v2.php");
+exit();
+?>
