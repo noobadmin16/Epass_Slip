@@ -230,10 +230,13 @@ if (isset($_POST['save_data2'])) {
                                     <?php
                                     // Check if the current time is before 9:00 AM
                                     $currentTime = date('H:i');
-                                    if (($currentTime >= '12:00' && $currentTime <= '13:30') && $currentTime < '9:00') {
+                                    if ($currentTime >= '12:00' && $currentTime <= '13:30') {
                                         // If before 9:00 AM, only show Official Business option
                                         echo '<option>Official Business</option>';
-                                    } else {
+                                    } else if($currentTime < '9:00'){
+                                        echo '<option>Official Business</option>';
+                                    }
+                                    else {
                                         // If after 9:00 AM, show both options
                                         echo '<option>Personal</option>';
                                         echo '<option>Official Business</option>';
